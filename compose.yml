@@ -35,7 +35,7 @@ services:
       - ROUNDCUBEMAIL_DEFAULT_HOST=openadmin_mailserver
       - ROUNDCUBEMAIL_SMTP_SERVER=openadmin_mailserver
     ports:
-      - "8000:80"
+      - "8080:8080"
     restart: always
     networks:
       - openadmin_mail_network
