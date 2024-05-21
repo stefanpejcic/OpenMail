@@ -13,7 +13,7 @@ ufw allow 143 && \
 ufw allow 465 && \
 ufw allow 587 && \
 ufw allow 993 && \
-ufw allow 8000
+ufw allow 8080
 
 
 # create user
