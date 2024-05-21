@@ -9,11 +9,12 @@ docker-compose up -d
 
 # open ports
 ufw allow 25 && \
+#ufw allow 8080 && \
 ufw allow 143 && \
 ufw allow 465 && \
 ufw allow 587 && \
-ufw allow 993 && \
-ufw allow 8080
+ufw allow 993 
+
 
 
 # create user
