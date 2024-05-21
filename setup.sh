@@ -38,7 +38,7 @@ echo "$user_list" | jq -c '.[]' | while read -r user; do
     username=$(echo "$user" | jq -r '.username')
     if [[ "$username" != *"_"* ]]; then
         echo "Enabling emails for: $username"
-        docker network connect openadmin_email_network "$username"
+        docker network connect openadmin_mail_network "$username"
     else
         echo "Skipping suspended user $username"
     fi
