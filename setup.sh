@@ -1,11 +1,17 @@
 #!/bin/bash
 
-SNAPPYMAIL=false #default is roundcube
+SNAPPYMAIL=false
+DOVECOT=false
 
 for arg in "$@"; do
     case $arg in
         --snappymail)
             SNAPPYMAIL=true
+            DOVECOT=false
+            ;;
+        --dovecot)
+            SNAPPYMAIL=false
+            DOVECOT=true
             ;;
         --debug)
             DEBUG=true
@@ -15,7 +21,7 @@ for arg in "$@"; do
     esac
 done
 
-# start the postfix, dovecot and roundcube containers with the new networ for emails
+# start the postfix, dovecot and roundcube/snappymail containers with the new network for emails
 apt-get update
 apt-get install -y docker-compose
 
@@ -25,17 +31,17 @@ cp snappymail.ini /etc/openpanel/email/snappymail/config.ini
 
 
 
-#docker-compose up -d
-
 if [ "$SNAPPYMAIL" = true ]; then
     docker-compose -d -p emails up mailserver snappymail
-else
+elif [ "$DOVECOT" = true ]; then
     docker-compose -d -p emails up mailserver roundcube
+else
+    docker-compose -d -p emails up
 fi
 
 # open ports
 ufw allow 25 && \
-#ufw allow 8080 && \
+#ufw allow 8080 && \ #uncomment to expose webmail
 ufw allow 143 && \
 ufw allow 465 && \
 ufw allow 587 && \
