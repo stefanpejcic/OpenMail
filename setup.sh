@@ -4,6 +4,12 @@
 apt-get update
 apt-get install -y docker-compose
 
+#setup snappymail
+/mkdir -p /etc/openpanel/email/snappymail
+cp snappymail.ini /etc/openpanel/email/snappymail/config.ini
+
+
+
 docker-compose up -d
 
 
