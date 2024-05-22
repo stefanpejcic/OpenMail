@@ -49,7 +49,7 @@ services:
       - PHP_MAX_FILE_UPLOADS=20
       - PHP_MAX_POST=100M
     ports:
-      - "9090:80"
+      - "8080:80"
     volumes:
       - /etc/openpanel/email/snappymail:/data
     restart: always
