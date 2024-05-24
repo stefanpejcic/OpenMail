@@ -27,6 +27,20 @@ services:
     networks:
       - openadmin_mail_network
 
+  sogo:
+    image: aloware/sogo
+    container_name: openadmin_sogo
+    environment:
+      - SOGO_MAIL_DOMAIN=example.com
+      - SOGO_IMAPSERVER=imap://openadmin_mailserver:143/?tls=YES
+      - SOGO_SMTPSERVER=smtp://openadmin_mailserver:587
+    ports:
+      - "8080:20000"
+    depends_on:
+      - mailserver
+    networks:
+      - openadmin_mail_network
+
   roundcube:
     image: roundcube/roundcubemail
     container_name: openadmin_roundcube
