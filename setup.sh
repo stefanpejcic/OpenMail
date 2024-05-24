@@ -2,16 +2,24 @@
 
 SNAPPYMAIL=false
 DOVECOT=false
+SOGO=false
 
 for arg in "$@"; do
     case $arg in
         --snappymail)
             SNAPPYMAIL=true
             DOVECOT=false
+            SOGO=false
             ;;
         --dovecot)
             SNAPPYMAIL=false
             DOVECOT=true
+            SOGO=false
+            ;;
+        --sogo)
+            SNAPPYMAIL=false
+            DOVECOT=false
+            SOGO=true
             ;;
         --debug)
             DEBUG=true
@@ -35,6 +43,8 @@ if [ "$SNAPPYMAIL" = true ]; then
     docker-compose -d -p emails up mailserver snappymail
 elif [ "$DOVECOT" = true ]; then
     docker-compose -d -p emails up mailserver roundcube
+elif [ "$SOGO" = true ]; then
+    docker-compose -d -p emails up mailserver sogo
 else
     docker-compose -d -p emails up
 fi
