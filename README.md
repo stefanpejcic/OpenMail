@@ -1,5 +1,5 @@
 # OpenMail
-MailServer + Roundcube / SnappyMail
+MailServer + Roundcube / SnappyMail / Sogo
 
 ## Usage
 
@@ -13,6 +13,12 @@ Run with SnappyMail:
 
 ```bash
 ./setup.sh --snappymail
+```
+
+Run with Sogo:
+
+```bash
+./setup.sh --sogo
 ```
 
 Run just the mailserver:
