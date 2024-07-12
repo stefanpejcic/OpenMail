@@ -40,13 +40,13 @@ cp snappymail.ini /etc/openpanel/email/snappymail/config.ini
 
 
 if [ "$SNAPPYMAIL" = true ]; then
-    docker-compose -d -p emails up mailserver snappymail
+    docker compose up -d mailserver snappymail
 elif [ "$DOVECOT" = true ]; then
-    docker-compose -d -p emails up mailserver roundcube
+    docker compose up -d mailserver roundcube
 elif [ "$SOGO" = true ]; then
-    docker-compose -d -p emails up mailserver sogo
+    docker compose up -d mailserver sogo
 else
-    docker-compose -d -p emails up
+    docker compose up -d mailserver
 fi
 
 # open ports
