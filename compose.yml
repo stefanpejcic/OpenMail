@@ -50,7 +50,6 @@ services:
       - ROUNDCUBEMAIL_SMTP_SERVER=openadmin_mailserver
     ports:
       - "8080:80"
-    restart: always
     networks:
       - openadmin_mail_network
 
