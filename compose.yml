@@ -25,7 +25,7 @@ services:
       timeout: 3s
       retries: 0
     networks:
-      - openadmin_mail_network
+      - network
 
   sogo:
     image: aloware/sogo
@@ -39,7 +39,7 @@ services:
     depends_on:
       - mailserver
     networks:
-      - openadmin_mail_network
+      - network
 
   roundcube:
     image: roundcube/roundcubemail
@@ -51,7 +51,7 @@ services:
     ports:
       - "8080:80"
     networks:
-      - openadmin_mail_network
+      - network
 
   snappymail:
     image: crazymax/snappymail
@@ -67,10 +67,10 @@ services:
       - /etc/openpanel/email/snappymail:/data
     restart: always
     networks:
-      - openadmin_mail_network
+      - network
 
 
 
 networks:
-  openadmin_mail_network:
+  network:
     driver: bridge
