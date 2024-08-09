@@ -1,5 +1,8 @@
 #!/bin/bash
 
+
+# NOT PRODUCTION READY
+
 SNAPPYMAIL=false
 DOVECOT=false
 SOGO=false
@@ -58,6 +61,47 @@ ufw allow 587 && \
 ufw allow 993 
 
 
+if command -v csf >/dev/null 2>&1; then
+    FIREWALL="CSF"
+# Check for UFW
+elif command -v ufw >/dev/null 2>&1; then
+    FIREWALL="UFW"    
+else
+    echo "Error: Neither CSF nor UFW are installed. make sure ports 25 243 465 587 and 993 are opened on external firewall."
+fi
+
+
+
+function open_port_csf() {
+    local port=$1
+    local csf_conf="/etc/csf/csf.conf"
+    
+    # Check if port is already open
+    port_opened=$(grep "TCP_IN = .*${port}" "$csf_conf")
+    if [ -z "$port_opened" ]; then
+        # Open port
+        sed -i "s/TCP_IN = \"\(.*\)\"/TCP_IN = \"\1,${port}\"/" "$csf_conf"
+        echo "Port ${port} opened in CSF."
+        ports_opened=1
+    else
+        echo "Port ${port} is already open in CSF."
+    fi
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # create user
 #
@@ -68,13 +112,31 @@ ufw allow 993
 
 user_list=$(opencli user-list --json)
 
+
+
+
+ensure_jq_installed() {
+    # Check if jq is installed
+    if ! command -v jq &> /dev/null; then
+        # Install jq using apt
+        sudo apt-get update > /dev/null 2>&1
+        sudo apt-get install -y -qq jq > /dev/null 2>&1
+        # Check if installation was successful
+        if ! command -v jq &> /dev/null; then
+            echo "Error: jq installation failed. Please install jq manually and try again."
+            exit 1
+        fi
+    fi
+}
+
+
+
 # install jq
-if ! command -v jq &> /dev/null; then
-    echo "jq is not installed. Installing jq..."
-    apt-get install jq -y  # For Debian/Ubuntu
-    # yum install jq -y      # For CentOS/RHEL
-    # brew install jq        # For macOS
-fi
+ensure_jq_installed
+
+
+
+
 
 # Loop through each user
 echo "$user_list" | jq -c '.[]' | while read -r user; do
