@@ -1,3 +1,17 @@
+# NOT PRODUCTION READY
+
+# DO NOT USE
+
+
+
+--------
+
+```bash
+git clone https://github.com/stefanpejcic/openmail && cd openmail && bash setup.sh --roundcube
+```
+
+
+
 # OpenMail
 MailServer + Roundcube / SnappyMail / Sogo
 
