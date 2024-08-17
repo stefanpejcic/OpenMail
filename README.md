@@ -1,41 +1,10 @@
-# NOT PRODUCTION READY
+# Mail server for OpenPanel
 
-# DO NOT USE
-
-
-
---------
-
+Installation:
 ```bash
-mkdir -p /usr/local/mail/ && cd /usr/local/mail/ && git clone https://github.com/stefanpejcic/openmail && cd openmail && bash setup.sh
+opencli email-server install
 ```
 
 
-
-# OpenMail
-MailServer + Roundcube / SnappyMail / Sogo
-
-## Usage
-
-Run with Roundcube:
-
-```bash
-./setup.sh --roundcube
-```
-
-Run with SnappyMail:
-
-```bash
-./setup.sh --snappymail
-```
-
-Run with Sogo:
-
-```bash
-./setup.sh --sogo
-```
-
-Run just the mailserver:
-```bash
-./setup.sh
-```
+Available Webmails:
+Roundcube / SnappyMail / Sogo
