@@ -33,8 +33,8 @@ for arg in "$@"; do
 done
 
 # start the postfix, dovecot and roundcube/snappymail containers with the new network for emails
-apt-get update
-apt-get install -y docker-compose
+#apt-get update
+#apt-get install -y docker-compose
 
 #setup snappymail
 mkdir -p /etc/openpanel/email/snappymail
