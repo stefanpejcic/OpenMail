@@ -7,7 +7,7 @@
 --------
 
 ```bash
-git clone https://github.com/stefanpejcic/openmail && cd openmail && bash setup.sh --roundcube
+mkdir -p /usr/local/mail/ && cd /usr/local/mail/ && git clone https://github.com/stefanpejcic/openmail && cd openmail && bash setup.sh --roundcube
 ```
 
 
