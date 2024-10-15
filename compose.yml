@@ -2,7 +2,7 @@ services:
   mailserver:
     image: ghcr.io/docker-mailserver/docker-mailserver:latest
     container_name: openadmin_mailserver
-    hostname: mail.openpanel.site
+    hostname: localhost
     env_file: mailserver.env
     ports:
       - "25:25"
@@ -15,6 +15,7 @@ services:
       - ./docker-data/dms/mail-state/:/var/mail-state/
       - ./docker-data/dms/mail-logs/:/var/log/mail/
       - ./docker-data/dms/config/:/tmp/docker-mailserver/
+      - /etc/letsencrypt:/etc/letsencrypt
       - /etc/localtime:/etc/localtime:ro
       - /home/:/home/
     restart: always
@@ -43,10 +44,15 @@ services:
   roundcube:
     image: roundcube/roundcubemail
     container_name: openadmin_roundcube
+    hostname: localhost
     restart: always
     environment:
       - ROUNDCUBEMAIL_DEFAULT_HOST=openadmin_mailserver
+      - ROUNDCUBEMAIL_DEFAULT_PORT=
       - ROUNDCUBEMAIL_SMTP_SERVER=openadmin_mailserver
+      - ROUNDCUBEMAIL_SMTP_PORT=
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
     ports:
       - "8080:80"
     networks:
