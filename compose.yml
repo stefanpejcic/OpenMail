@@ -2,7 +2,7 @@ services:
   mailserver:
     image: ghcr.io/docker-mailserver/docker-mailserver:latest
     container_name: openadmin_mailserver
-    hostname: localhost
+    hostname: local.host
     env_file: mailserver.env
     ports:
       - "25:25"
