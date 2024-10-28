@@ -30,7 +30,7 @@ services:
       - NET_ADMIN
   
   sogo:
-    image: aloware/sogo
+    image: pmietlicki/sogo
     container_name: openadmin_sogo
     environment:
       - SOGO_MAIL_DOMAIN=example.com
