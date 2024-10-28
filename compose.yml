@@ -72,6 +72,7 @@ services:
       - PHP_MAX_POST=100M
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt
+      - ./snappymail.ini:/snappymail.ini
       - /etc/openpanel/email/snappymail:/data
     ports:
       - "8080:8888"
