@@ -36,6 +36,8 @@ services:
       - SOGO_MAIL_DOMAIN=example.com
       - SOGO_IMAPSERVER=imap://openadmin_mailserver:143/?tls=YES
       - SOGO_SMTPSERVER=smtp://openadmin_mailserver:587
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
     ports:
       - "8080:20000"
     depends_on:
@@ -68,10 +70,11 @@ services:
       - PHP_MAX_UPLOAD=50M
       - PHP_MAX_FILE_UPLOADS=20
       - PHP_MAX_POST=100M
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+      - /etc/openpanel/email/snappymail:/data
     ports:
       - "8080:80"
-    volumes:
-      - /etc/openpanel/email/snappymail:/data
     restart: always
     networks:
       - network
