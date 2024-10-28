@@ -63,7 +63,7 @@ services:
       - network
 
   snappymail:
-    image: crazymax/snappymail
+    image: djmaze/snappymail
     container_name: openadmin_snappymail
     environment:
       - PHP_MEMORY_LIMIT=512M
@@ -74,7 +74,7 @@ services:
       - /etc/letsencrypt:/etc/letsencrypt
       - /etc/openpanel/email/snappymail:/data
     ports:
-      - "8080:80"
+      - "8080:8888"
     restart: always
     networks:
       - network
