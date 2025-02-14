@@ -5,11 +5,14 @@ services:
     hostname: local.host
     env_file: mailserver.env
     ports:
-      - "25:25"
-      - "143:143"
-      - "465:465"
-      - "587:587"
-      - "993:993"
+      - "25:25"    # SMTP  (explicit TLS => STARTTLS)
+      - "143:143"  # IMAP4 (explicit TLS => STARTTLS)
+      - "465:465"  # ESMTP (implicit TLS)
+      - "587:587"  # ESMTP (explicit TLS => STARTTLS)
+      - "993:993"  # IMAP4 (implicit TLS)
+      - "110:110"  # POP3
+      - "995:995"  # POP3 (with TLS)
+      - "11334:11334" # https://docker-mailserver.github.io/docker-mailserver/latest/config/security/rspamd/#web-interface
     volumes:
       - ./docker-data/dms/mail-data/:/var/mail/
       - ./docker-data/dms/mail-state/:/var/mail-state/
