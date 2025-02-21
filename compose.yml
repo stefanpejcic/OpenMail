@@ -18,7 +18,6 @@ services:
       - ./docker-data/dms/mail-state/:/var/mail-state/
       - ./docker-data/dms/mail-logs/:/var/log/mail/
       - ./docker-data/dms/config/:/tmp/docker-mailserver/
-      - /etc/letsencrypt:/etc/letsencrypt
       - /etc/localtime:/etc/localtime:ro
       - /home/:/home/
     restart: always
@@ -39,8 +38,6 @@ services:
       - SOGO_MAIL_DOMAIN=example.com
       - SOGO_IMAPSERVER=imap://openadmin_mailserver:143/?tls=YES
       - SOGO_SMTPSERVER=smtp://openadmin_mailserver:587
-    volumes:
-      - /etc/letsencrypt:/etc/letsencrypt
     ports:
       - "8080:20000"
     depends_on:
@@ -58,8 +55,6 @@ services:
       - ROUNDCUBEMAIL_DEFAULT_PORT=
       - ROUNDCUBEMAIL_SMTP_SERVER=openadmin_mailserver
       - ROUNDCUBEMAIL_SMTP_PORT=
-    volumes:
-      - /etc/letsencrypt:/etc/letsencrypt
     ports:
       - "8080:80"
     networks:
@@ -73,8 +68,9 @@ services:
       - PHP_MAX_UPLOAD=50M
       - PHP_MAX_FILE_UPLOADS=20
       - PHP_MAX_POST=100M
+      - SNAPPYMAIL_IMAP_HOST=oopenadmin_mailserver
+      - SNAPPYMAIL_SMTP_HOST=openadmin_mailserver
     volumes:
-      - /etc/letsencrypt:/etc/letsencrypt
       - ./snappymail.ini:/snappymail.ini
       - /etc/openpanel/email/snappymail:/data
     ports:
