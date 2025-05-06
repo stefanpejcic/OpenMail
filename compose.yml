@@ -20,6 +20,7 @@ services:
       - ./docker-data/dms/config/:/tmp/docker-mailserver/
       - /etc/localtime:/etc/localtime:ro
       - /home/:/home/
+      - /etc/openpanel/caddy/ssl/acme-v02.api.letsencrypt.org-directory/:/etc/letsencrypt/live/:ro
     restart: always
     stop_grace_period: 1m
     healthcheck:
