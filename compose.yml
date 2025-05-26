@@ -56,6 +56,7 @@ services:
       - ROUNDCUBEMAIL_DEFAULT_PORT=
       - ROUNDCUBEMAIL_SMTP_SERVER=openadmin_mailserver
       - ROUNDCUBEMAIL_SMTP_PORT=
+      - ROUNDCUBEMAIL_PLUGINS=archive,zipdownload,autologon
     ports:
       - "8080:80"
     networks:
