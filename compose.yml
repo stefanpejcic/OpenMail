@@ -40,7 +40,7 @@ services:
       - SOGO_IMAPSERVER=imap://openadmin_mailserver:143/?tls=YES
       - SOGO_SMTPSERVER=smtp://openadmin_mailserver:587
     ports:
-      - "8080:20000"
+      - "8080:80"
     depends_on:
       - mailserver
     networks:
