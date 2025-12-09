@@ -41,7 +41,7 @@ services:
     environment:
       - ROUNDCUBEMAIL_DEFAULT_HOST=${OVERRIDE_HOSTNAME:+ssl://$OVERRIDE_HOSTNAME}${OVERRIDE_HOSTNAME:+"":-openadmin_mailserver}
       - ROUNDCUBEMAIL_DEFAULT_PORT=${OVERRIDE_HOSTNAME:+993}
-      - ROUNDCUBEMAIL_SMTP_SERVER=openadmin_mailserver
+      - ROUNDCUBEMAIL_SMTP_SERVER=${OVERRIDE_HOSTNAME:+ssl://$OVERRIDE_HOSTNAME}${OVERRIDE_HOSTNAME:+"":-openadmin_mailserver}
       - ROUNDCUBEMAIL_SMTP_PORT=${OVERRIDE_HOSTNAME:+465}
       - ROUNDCUBEMAIL_PLUGINS=archive,zipdownload,autologon
     ports:
