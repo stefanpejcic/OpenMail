@@ -2,16 +2,16 @@ services:
   mailserver:
     image: ghcr.io/docker-mailserver/docker-mailserver:latest
     container_name: openadmin_mailserver
-    hostname: local.host
+    hostname: "${OVERRIDE_HOSTNAME:-local.host}"
     env_file: mailserver.env
     ports:
-      - "25:25"    # SMTP  (explicit TLS => STARTTLS)
-      - "143:143"  # IMAP4 (explicit TLS => STARTTLS)
-      - "465:465"  # ESMTP (implicit TLS)
-      - "587:587"  # ESMTP (explicit TLS => STARTTLS)
-      - "993:993"  # IMAP4 (implicit TLS)
-      - "110:110"  # POP3
-      - "995:995"  # POP3 (with TLS)
+      - "25:25"       # SMTP  (explicit TLS => STARTTLS)
+      - "143:143"     # IMAP4 (explicit TLS => STARTTLS)
+      - "465:465"     # ESMTP (implicit TLS)
+      - "587:587"     # ESMTP (explicit TLS => STARTTLS)
+      - "993:993"     # IMAP4 (implicit TLS)
+      - "110:110"     # POP3
+      - "995:995"     # POP3 (with TLS)
       - "11334:11334" # https://docker-mailserver.github.io/docker-mailserver/latest/config/security/rspamd/#web-interface
     volumes:
       - ./docker-data/dms/mail-data/:/var/mail/
@@ -20,7 +20,7 @@ services:
       - ./docker-data/dms/config/:/tmp/docker-mailserver/
       - /etc/localtime:/etc/localtime:ro
       - /home/:/home/
-      - /etc/openpanel/caddy/ssl/:/etc/openpanel/caddy/ssl/:ro
+      - /etc/openpanel/caddy/ssl/:/etc/openpanel/caddy/ssl/:ro # needed for SSL
     restart: always
     stop_grace_period: 1m
     healthcheck:
