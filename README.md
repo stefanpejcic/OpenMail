@@ -1,10 +1,1 @@
-# Mail server for OpenPanel
-
-Installation:
-```bash
-opencli email-server install
-```
-
-
-Available Webmails:
-Roundcube / SnappyMail / Sogo
+https://dev.openpanel.com/cli/email.html#MailServer
