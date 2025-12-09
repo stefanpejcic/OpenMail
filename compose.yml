@@ -32,20 +32,6 @@ services:
     cap_add:
       - NET_ADMIN
   
-  sogo:
-    image: pmietlicki/sogo
-    container_name: openadmin_sogo
-    environment:
-      - SOGO_MAIL_DOMAIN=example.com
-      - SOGO_IMAPSERVER=imap://openadmin_mailserver:143/?tls=YES
-      - SOGO_SMTPSERVER=smtp://openadmin_mailserver:587
-    ports:
-      - "8080:80"
-    depends_on:
-      - mailserver
-    networks:
-      - network
-
   roundcube:
     image: roundcube/roundcubemail
     container_name: openadmin_roundcube
@@ -62,27 +48,6 @@ services:
       - "8080:80"
     networks:
       - network
-
-  snappymail:
-    image: djmaze/snappymail
-    container_name: openadmin_snappymail
-    environment:
-      - PHP_MEMORY_LIMIT=512M
-      - PHP_MAX_UPLOAD=50M
-      - PHP_MAX_FILE_UPLOADS=20
-      - PHP_MAX_POST=100M
-      - SNAPPYMAIL_IMAP_HOST=oopenadmin_mailserver
-      - SNAPPYMAIL_SMTP_HOST=openadmin_mailserver
-    volumes:
-      - ./snappymail.ini:/snappymail.ini
-      - /etc/openpanel/email/snappymail:/data
-    ports:
-      - "8080:8888"
-    restart: always
-    networks:
-      - network
-
-
 
 networks:
   network:
