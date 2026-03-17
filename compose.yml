@@ -49,6 +49,19 @@ services:
     networks:
       - network
 
+  postfwd:
+    image: postfwd/postfwd:stable
+    container_name: openadmin_postfwd
+    restart: always
+    depends_on:
+      - mailserver
+    networks:
+      - network
+    volumes:
+      - ./postfwd:/etc/postfwd
+    command: >
+      /usr/sbin/postfwd --config /etc/postfwd/postfwd.cf --daemon --foreground --port 10040
+
 networks:
   network:
     driver: bridge
