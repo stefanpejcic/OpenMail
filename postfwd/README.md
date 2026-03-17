@@ -1,7 +1,6 @@
 # PostFW setup on DMS Postfix
 
-Rate-limiting is by defualt disbaled on Openpanel servers. Edit the `/usr/local/mail/openmail/postfwd/postfwd.cf` and set desired limits per IP, email address or domain.
-
+By default, rate-limiting is disabled on Openpanel servers. To enable it, edit `/usr/local/mail/openmail/postfwd/postfwd.cf` and configure the desired limits for each IP address, email address, or domain.
 
 ## Enable
 
