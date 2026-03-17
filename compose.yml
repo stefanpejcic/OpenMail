@@ -51,7 +51,7 @@ services:
 
   postfwd:
     image: postfwd/postfwd:stable
-    container_name: openadmin_postfwd
+    container_name: postfwd
     restart: always
     depends_on:
       - mailserver
