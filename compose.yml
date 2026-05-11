@@ -40,6 +40,7 @@ services:
     restart: always
     volumes:
       - ./roundcube-plugins/dovecot_impersonate:/var/www/html/plugins/dovecot_impersonate:ro
+      - ./roundcube-plugins/autologin.php:/var/www/html/public_html/autologin.php:ro
     environment:
       - ROUNDCUBEMAIL_DEFAULT_HOST=${OVERRIDE_HOSTNAME:+ssl://}${OVERRIDE_HOSTNAME:-openadmin_mailserver}
       - ROUNDCUBEMAIL_DEFAULT_PORT=${OVERRIDE_HOSTNAME:+993}
