@@ -38,12 +38,14 @@ services:
     hostname: localhost
     env_file: mailserver.env
     restart: always
+    volumes:
+      - ./roundcube-plugins/dovecot_impersonate:/var/www/html/plugins/dovecot_impersonate:ro
     environment:
       - ROUNDCUBEMAIL_DEFAULT_HOST=${OVERRIDE_HOSTNAME:+ssl://}${OVERRIDE_HOSTNAME:-openadmin_mailserver}
       - ROUNDCUBEMAIL_DEFAULT_PORT=${OVERRIDE_HOSTNAME:+993}
       - ROUNDCUBEMAIL_SMTP_SERVER=${OVERRIDE_HOSTNAME:+ssl://}${OVERRIDE_HOSTNAME:-openadmin_mailserver}
       - ROUNDCUBEMAIL_SMTP_PORT=${OVERRIDE_HOSTNAME:+465}
-      - ROUNDCUBEMAIL_PLUGINS=archive,zipdownload,autologon
+      - ROUNDCUBEMAIL_PLUGINS=archive,zipdownload,autologon,dovecot_impersonate
     ports:
       - "8080:80"
     networks:
