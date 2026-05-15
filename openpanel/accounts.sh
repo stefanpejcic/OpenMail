@@ -65,10 +65,9 @@ function _create_accounts() {
       fi
 
       mkdir -p "/var/mail/${DOMAIN}/${USER}/home"
-    echo "Dosao do ud!"
 
       if [[ -n ${UID_OVERRIDE} ]]; then
-        echo "Setting ${UID_OVERRIDE} for /var/mail/${DOMAIN}/${USER}"
+        _log 'debug' "Changing ownership to ${UID_OVERRIDE}:${UID_OVERRIDE} for /var/mail/${DOMAIN}/${USER}"
         chown -R "${UID_OVERRIDE}:${UID_OVERRIDE}" "/var/mail/${DOMAIN}/${USER}"
       fi
 
