@@ -24,6 +24,8 @@ services:
       - ./openpanel/accounts.sh:/usr/local/bin/helpers/accounts.sh:ro
       - ./openpanel/utils.sh:/usr/local/bin/helpers/utils.sh:ro
     restart: always
+    depends_on:
+      - postfwd
     stop_grace_period: 1m
     healthcheck:
       test: "ss --listening --tcp | grep -P 'LISTEN.+:smtp' || exit 1"
@@ -40,6 +42,8 @@ services:
     hostname: localhost
     env_file: mailserver.env
     restart: always
+    depends_on:
+      - mailserver
     volumes:
       - ./roundcube-plugins/dovecot_impersonate:/var/www/html/plugins/dovecot_impersonate:ro
       - ./roundcube-plugins/autologin.php:/var/www/html/public_html/autologin.php:ro
@@ -58,8 +62,6 @@ services:
     image: postfwd/postfwd:stable
     container_name: postfwd
     restart: always
-    depends_on:
-      - mailserver
     networks:
       - network
     volumes:
