@@ -1,1 +1,1 @@
-https://dev.openpanel.com/cli/email.html#MailServer
+https://openpanel.com/docs/articles/user-experience/how-to-setup-email-in-openpanel/
