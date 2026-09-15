@@ -76,6 +76,12 @@ function _chown_var_mail_if_necessary() {
 	_log 'trace' ' SKIP Fixing /var/mail permissions'
 }
 
+# older docker-mailserver images call this name instead of _chown_var_mail_if_necessary
+# https://github.com/stefanpejcic/openpanel/issues/1131
+function _chown_var_mail() {
+	_chown_var_mail_if_necessary
+}
+
 function _require_n_parameters_or_print_usage() {
   local COUNT
   COUNT=${1}
