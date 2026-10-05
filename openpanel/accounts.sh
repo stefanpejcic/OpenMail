@@ -194,7 +194,11 @@ function _add_attribute_dovecot_quota() {
     IFS=':' read -r -a USER_QUOTA < <(grep -i "${MAIL_ACCOUNT}:" /tmp/docker-mailserver/dovecot-quotas.cf)
 
     if [[ ${#USER_QUOTA[@]} -eq 2 ]]; then
-      USER_ATTRIBUTES="${USER_ATTRIBUTES:+${USER_ATTRIBUTES} }userdb_quota_rule=*:bytes=${USER_QUOTA[1]}"
+      USER_ATTRIBUTES="${USER_ATTRIBUTES:+${USER_ATTRIBUTES} }userdb_quota_storage_size=${USER_QUOTA[1]}"
+      # https://github.com/stefanpejcic/OpenPanel/issues/1183
+      if [[ ${USER_QUOTA[1]} =~ ^([1-9][0-9]*)([BkMGT])$ ]]; then
+        USER_ATTRIBUTES+=" userdb_quota_storage_grace=$(( BASH_REMATCH[1] / 10 ))${BASH_REMATCH[2]}"
+      fi
     fi
   fi
 
