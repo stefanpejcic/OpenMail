@@ -79,6 +79,46 @@ function _create_accounts() {
 
     _create_dovecot_alias_dummy_accounts
   fi
+
+  _create_srs_exclude_map
+}
+
+# With ENABLE_SRS=1, postsrsd rewrites the envelope sender of every message not from SRS_DOMAINNAME,
+# so mail the users send from their own domains would leave as SRS0=...@SRS_DOMAINNAME and lose its
+# SPF match with their domain. Only forwarded mail needs SRS. Both cleanup services ask this table
+# before postsrsd: a sender on a domain with a mailbox or an alias here maps to itself, and Postfix
+# stops at the first table that answers.
+# _create_accounts runs at startup, before Postfix starts and before _setup_SRS (which sets only
+# main.cf, so the master.cf -o wins), and after every change to the accounts or aliases, followed
+# by a Postfix reload.
+function _create_srs_exclude_map() {
+  [[ ${ENABLE_SRS} -eq 1 ]] || return 0
+
+  local SRS_EXCLUDE_MAP='/etc/postfix/srs-exclude.pcre'
+  local TMP_VHOST='/tmp/vhost.srs-exclude.tmp'
+  local DOMAIN SERVICE
+
+  rm -f "${TMP_VHOST}"
+  # the same domains docker-mailserver writes to /etc/postfix/vhost
+  _vhost_collect_postfix_domains
+  {
+    echo '# WARNING: this file is auto-generated from postfix-accounts.cf and postfix-virtual.cf.'
+    if [[ -f ${TMP_VHOST} ]]; then
+      tr '[:upper:]' '[:lower:]' <"${TMP_VHOST}" | sort -u | while read -r DOMAIN; do
+        if [[ ${DOMAIN} =~ ^[a-z0-9]([a-z0-9.-]*[a-z0-9])?$ ]]; then
+          # shellcheck disable=SC2016
+          printf '/^(.+@%s)$/ ${1}\n' "${DOMAIN//./\\.}"
+        fi
+      done
+    fi
+  } >"${SRS_EXCLUDE_MAP}.tmp"
+  rm -f "${TMP_VHOST}"
+  # Postfix defers mail when a table cannot be opened, so the table is replaced in one step
+  mv -f "${SRS_EXCLUDE_MAP}.tmp" "${SRS_EXCLUDE_MAP}"
+
+  for SERVICE in cleanup sender-cleanup; do
+    postconf -P "${SERVICE}/unix/sender_canonical_maps=pcre:${SRS_EXCLUDE_MAP},tcp:localhost:10001"
+  done
 }
 
 # Required when using Dovecot Quotas to avoid blacklisting risk from backscatter.
