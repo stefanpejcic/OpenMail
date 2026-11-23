@@ -24,8 +24,6 @@ services:
       - ./openpanel/accounts.sh:/usr/local/bin/helpers/accounts.sh:ro
       - ./openpanel/utils.sh:/usr/local/bin/helpers/utils.sh:ro
     restart: always
-    depends_on:
-      - postfwd
     stop_grace_period: 1m
     healthcheck:
       test: "ss --listening --tcp | grep -P 'LISTEN.+:smtp' || exit 1"
@@ -61,13 +59,15 @@ services:
   postfwd:
     image: postfwd/postfwd:stable
     container_name: postfwd
+    # the image starts postfwd from these env vars, keep_rates so a reload keeps the hourly counters, no cache since cached answers aren't counted
+    environment:
+      - CACHE=0
+      - EXTRA=--summary=600 --noidlestats --keep_rates
     restart: always
     networks:
       - network
     volumes:
       - ./postfwd:/etc/postfwd
-    command: >
-      /usr/sbin/postfwd --config /etc/postfwd/postfwd.cf --daemon --foreground --port 10040
 
 networks:
   network:

@@ -1,7 +1,5 @@
-# example file
+# not used by opencli anymore, 'opencli email-server postfwd enable' adds the check to the live restrictions instead
+# manual setup: append to docker-data/dms/config/postfix-main.cf (keep other overrides there) and run postconf -e with the same values + postfix reload
 
-postfwd:10040_time_limit=3600
-
-smtpd_recipient_restrictions=reject_unauth_pipelining,check_policy_service inet:postfwd:10040,permit_sasl_authenticated,permit_mynetworks,reject_unauth_destination,check_policy_service unix:private/policyd-spf,reject_invalid_helo_hostname,reject_non_fqdn_helo_hostname,reject_unknown_recipient_domain
-smtpd_client_restrictions=reject_unauth_destination,reject_unauth_pipelining,check_policy_service inet:postfwd:10040,permit_mynetworks,permit_sasl_authenticated,
-smtpd_sender_restrictions=reject_unknown_sender_domain,check_policy_service inet:postfwd:10040,permit_sasl_authenticated,permit_mynetworks
+smtpd_policy_service_default_action = DUNNO
+smtpd_recipient_restrictions = check_policy_service inet:postfwd:10040, permit_sasl_authenticated, permit_mynetworks, reject_unauth_destination, check_policy_service unix:private/policyd-spf, reject_invalid_helo_hostname, reject_non_fqdn_helo_hostname, reject_unknown_recipient_domain, check_policy_service inet:localhost:65265
