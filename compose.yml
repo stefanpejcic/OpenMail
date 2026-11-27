@@ -56,6 +56,26 @@ services:
     networks:
       - network
 
+  # alternative webmail, only one of roundcube and golub runs since both use port 8080; switch with: opencli email-webmail client golub
+  golub:
+    image: ghcr.io/stefanpejcic/golub:0.1
+    container_name: openadmin_golub
+    env_file: golub.env
+    restart: always
+    depends_on:
+      - mailserver
+    environment:
+      # opencli rewrites these to the hostname with implicit TLS once the mailserver has a certificate
+      - GOLUB_IMAP_HOST=mailserver
+      - GOLUB_IMAP_TLS=none
+      - GOLUB_SMTP_HOST=mailserver
+      - GOLUB_SMTP_TLS=none
+      - GOLUB_TRUST_PROXY=127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+    ports:
+      - "8080:8080"
+    networks:
+      - network
+
   postfwd:
     image: postfwd/postfwd:stable
     container_name: postfwd
